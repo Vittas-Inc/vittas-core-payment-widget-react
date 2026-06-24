@@ -3,15 +3,10 @@ import { useVittasPayment } from '../hooks/useVittasPayment.js';
 
 export function PaymentWidget({
   mode,
-  publicKey,
-  amount,
-  currency,
-  reference,
-  email,
-  metadata,
+  clientSecret,
   onSuccess,
-  onClose,
   onError,
+  onCancel,
   children,
   className,
   style,
@@ -19,15 +14,10 @@ export function PaymentWidget({
 }: PaymentWidgetProps) {
   const { open } = useVittasPayment({
     mode,
-    publicKey,
-    amount,
-    currency,
-    ...(reference !== undefined && { reference }),
-    ...(email !== undefined && { email }),
-    ...(metadata !== undefined && { metadata }),
+    clientSecret,
     ...(onSuccess !== undefined && { onSuccess }),
-    ...(onClose !== undefined && { onClose }),
     ...(onError !== undefined && { onError }),
+    ...(onCancel !== undefined && { onCancel }),
   });
 
   if (children) {

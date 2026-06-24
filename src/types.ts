@@ -2,73 +2,79 @@ import type { CSSProperties } from 'react';
 
 export type WidgetMode = 'TEST' | 'LIVE';
 
-export type Currency = string; // ISO 4217, e.g. 'NGN', 'USD', 'GHS'
+// ── Callback payloads (mirrors vittas-core-payment-widget contract) ─────────────
+
+export interface PaymentReference {
+  id: string;
+  reference: string;
+  status: string;
+}
+
+export interface VittasPayError {
+  message: string;
+  status: 'failed';
+}
+
+// ── SDK config ─────────────────────────────────────────────────────────────────
 
 export interface VittasPaymentConfig {
-  /** 'TEST' routes to dev-api; 'LIVE' routes to production api. */
+  /**
+   * 'TEST' loads the widget from the dev CDN; 'LIVE' from production CDN.
+   */
   mode: WidgetMode;
-  /** Your public API key from the Vittas dashboard. */
-  publicKey: string;
-  /** Amount in the smallest currency unit (e.g. kobo for NGN, cents for USD). */
-  amount: number;
-  /** ISO 4217 currency code. */
-  currency: Currency;
-  /** Unique payment reference. Auto-generated if omitted. */
-  reference?: string;
-  /** Customer email address. */
-  email?: string;
-  /** Arbitrary key-value pairs attached to the transaction. */
-  metadata?: Record<string, unknown>;
-}
-
-export interface PaymentSuccessData {
-  reference: string;
-  transactionId: string;
-  amount: number;
-  currency: Currency;
-}
-
-export interface PaymentError {
-  code: string;
-  message: string;
+  /**
+   * Session client secret obtained from your backend (cs_...).
+   * Never hard-code this — request it from your server right before opening
+   * the widget, then pass it here.
+   */
+  clientSecret: string;
 }
 
 // ── Component props ────────────────────────────────────────────────────────────
 
 export interface PaymentWidgetProps extends VittasPaymentConfig {
-  /** Called when the payment is completed successfully. */
-  onSuccess?: (data: PaymentSuccessData) => void;
-  /** Called when the user closes the payment modal without completing. */
-  onClose?: () => void;
-  /** Called when a payment error occurs. */
-  onError?: (error: PaymentError) => void;
+  /** Fires when the payment completes successfully. */
+  onSuccess?: (reference: PaymentReference) => void | Promise<void>;
+  /** Fires when a payment error occurs. */
+  onError?: (err: VittasPayError) => void | Promise<void>;
+  /** Fires when the user closes the widget before completing. */
+  onCancel?: () => void;
   /** Pass a custom trigger element. Defaults to a styled "Pay Now" button. */
   children?: React.ReactNode;
   className?: string;
   style?: CSSProperties;
-  /** Whether the widget is disabled. */
+  /** Disables the trigger button. */
   disabled?: boolean;
 }
 
 // ── Hook types ─────────────────────────────────────────────────────────────────
 
 export interface UseVittasPaymentOptions extends VittasPaymentConfig {
-  onSuccess?: (data: PaymentSuccessData) => void;
-  onClose?: () => void;
-  onError?: (error: PaymentError) => void;
+  onSuccess?: (reference: PaymentReference) => void | Promise<void>;
+  onError?: (err: VittasPayError) => void | Promise<void>;
+  onCancel?: () => void;
 }
 
 export interface UseVittasPaymentReturn {
   open: () => void;
-  close: () => void;
   isOpen: boolean;
 }
 
-// ── Internal postMessage protocol ──────────────────────────────────────────────
+// ── Global injected by the CDN widget.js script ────────────────────────────────
 
-export type WidgetMessageType = 'VITTAS_SUCCESS' | 'VITTAS_ERROR' | 'VITTAS_CLOSE';
+interface VittasWidgetConfig {
+  clientSecret: string;
+  onSuccess?: (reference: PaymentReference) => void | Promise<void>;
+  onError?: (err: VittasPayError) => void | Promise<void>;
+  onCancel?: () => void;
+}
 
-export interface WidgetMessage {
-  type: WidgetMessageType;
-  payload?: PaymentSuccessData | PaymentError;
+export interface VittasPayGlobal {
+  init: (config: VittasWidgetConfig) => unknown;
+}
+
+declare global {
+  interface Window {
+    VittasPay?: VittasPayGlobal;
+  }
 }
