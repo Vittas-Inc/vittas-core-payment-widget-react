@@ -1,0 +1,12 @@
+# Source files (dist is published, not src)
+src/
+tsconfig.json
+tsup.config.ts
+eslint.config.mjs
+prettier.config.mjs
+.github/
+*.tgz
+
+# Dev artifacts
+node_modules/
+.env*

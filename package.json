@@ -1,0 +1,69 @@
+{
+  "name": "@vittascore/payment-widget-react",
+  "version": "0.1.0",
+  "description": "Official Vittas payment widget for React",
+  "keywords": [
+    "vittas",
+    "payment",
+    "widget",
+    "react",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Vittas-Inc/vittas-core-payment-widget-react#readme",
+  "bugs": {
+    "url": "https://github.com/Vittas-Inc/vittas-core-payment-widget-react/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vittas-Inc/vittas-core-payment-widget-react.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src",
+    "format": "prettier --write src",
+    "prepublishOnly": "npm run type-check && npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.4.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

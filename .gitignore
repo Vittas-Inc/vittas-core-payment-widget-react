@@ -1,0 +1,22 @@
+# Build output
+dist/
+*.map
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# npm pack output
+*.tgz
