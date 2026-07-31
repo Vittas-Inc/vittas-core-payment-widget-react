@@ -20,6 +20,10 @@ export function useVittasPayment(options: UseVittasPaymentOptions): UseVittasPay
 
         window.VittasPay.init({
           clientSecret: config.clientSecret,
+          // Forwarded so the hosted widget hits the matching REST host. Without
+          // it the widget falls back to sniffing the cs_ prefix, which reflects
+          // the API key mode, not the environment that issued the session.
+          mode: config.mode,
           onSuccess: (reference) => {
             setIsOpen(false);
             void config.onSuccess?.(reference);
