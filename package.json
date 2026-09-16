@@ -1,6 +1,6 @@
 {
   "name": "@vittascore/payment-widget-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Official Vittas payment widget for React",
   "keywords": [
     "vittas",
