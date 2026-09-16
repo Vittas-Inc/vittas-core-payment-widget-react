@@ -6,8 +6,6 @@ dist/
 node_modules/
 
 # Environment
-.env
-.env.local
 .env.*.local
 
 # OS
@@ -15,8 +13,10 @@ node_modules/
 Thumbs.db
 
 # Editor
-.vscode/settings.json
 .idea/
 
 # npm pack output
 *.tgz
+
+
+config.bat
