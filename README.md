@@ -50,7 +50,7 @@ The response includes a `clientSecret` (`cs_...`) that you forward to the fronte
 **Auth:** `Authorization: Bearer sk_test_…` (your secret key, never exposed to the browser)
 
 ```http
-POST https://dev-api.core.vittasinternational.com/api/widget/sessions
+POST https://api.core.vittasinternational.com/api/widget/sessions
 Authorization: Bearer sk_test_xxxxxxxxxxxx
 Content-Type: application/json
 
@@ -139,7 +139,7 @@ Pass any element as `children` and it becomes the click target:
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `mode` | `'TEST' \| 'LIVE'` | ✅ | Determines which CDN and API environment to use |
+| `mode` | `'TEST' \| 'LIVE'` | ✅ | Retained for backward compatibility — both values resolve to the same CDN and API host. The environment is determined by your secret key (`sk_test_…` / `sk_live_…`), not this prop |
 | `clientSecret` | `string` | ✅ | Session client secret from your backend (`cs_...`) |
 | `onSuccess` | `(ref: PaymentReference) => void \| Promise<void>` | — | Fires when the payment completes |
 | `onError` | `(err: VittasPayError) => void \| Promise<void>` | — | Fires on payment failure |
@@ -151,12 +151,14 @@ Pass any element as `children` and it becomes the click target:
 
 ## Environments
 
-| Mode | CDN | API |
-|------|-----|-----|
-| `TEST` | `https://dev-cdn.core.vittasinternational.com` | `https://dev-api.core.vittasinternational.com` |
-| `LIVE` | `https://cdn.core.vittasinternational.com` | `https://api.core.vittasinternational.com` |
+Both `TEST` and `LIVE` resolve to the same host — the environment is determined by the secret key
+your backend used to create the session, not by the `mode` prop.
 
-Widget script loaded at runtime: `{cdn}/latest/widget.js`
+| CDN | API |
+|-----|-----|
+| `https://cdn.core.vittasinternational.com` | `https://api.core.vittasinternational.com` |
+
+Widget script loaded at runtime: `https://cdn.core.vittasinternational.com/latest/widget.js`
 
 ---
 

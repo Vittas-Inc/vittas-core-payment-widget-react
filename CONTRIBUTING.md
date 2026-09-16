@@ -38,12 +38,15 @@ is about to pay.
 
 ## Infrastructure URLs
 
-| Purpose | TEST | LIVE |
-|---------|------|------|
-| REST API | `https://dev-api.core.vittasinternational.com` | `https://api.core.vittasinternational.com` |
-| CDN (widget script + frame) | `https://dev-cdn.core.vittasinternational.com` | `https://cdn.core.vittasinternational.com` |
-| Widget script | `/latest/widget.js` | `/latest/widget.js` |
-| Payment iframe | `/latest/frame.html` | `/latest/frame.html` |
+TEST and LIVE share the same host — the environment is determined by the secret key used to create
+the session (`sk_test_…` / `sk_live_…`), not by a separate subdomain.
+
+| Purpose | URL |
+|---------|-----|
+| REST API | `https://api.core.vittasinternational.com` |
+| CDN (widget script + frame) | `https://cdn.core.vittasinternational.com` |
+| Widget script | `/latest/widget.js` |
+| Payment iframe | `/latest/frame.html` |
 
 The React package dynamically loads `widget.js` from the CDN at runtime and calls
 `window.VittasPay(config)` — the same global the vanilla embed exposes. The npm package

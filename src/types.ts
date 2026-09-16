@@ -19,10 +19,9 @@ export interface VittasPayError {
 
 export interface VittasPaymentConfig {
   /**
-   * 'TEST' loads the widget from the dev CDN and talks to the dev REST API;
-   * 'LIVE' uses the production CDN and REST API. It must match the environment
-   * your backend created the session on — not the cs_test_/cs_live_ prefix,
-   * which only reflects which API key was used.
+   * Both 'TEST' and 'LIVE' resolve to the same CDN and REST API host — the
+   * environment is determined by the secret key your backend used to create
+   * the session (sk_test_… vs sk_live_…), not by this value.
    */
   mode: WidgetMode;
   /**
@@ -67,7 +66,7 @@ export interface UseVittasPaymentReturn {
 
 interface VittasWidgetConfig {
   clientSecret: string;
-  /** Environment the session was created on — pins the REST API host. */
+  /** Retained for backward compatibility — does not affect which host is used. */
   mode: WidgetMode;
   onSuccess?: (reference: PaymentReference) => void | Promise<void>;
   onError?: (err: VittasPayError) => void | Promise<void>;
