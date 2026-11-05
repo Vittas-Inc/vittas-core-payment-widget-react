@@ -1,9 +1,8 @@
 name: Publish to npm
 
 on:
-  push:
-    tags:
-      - 'v*'
+  # Auto-deploy disabled 2026-11-05 (security incident). Run manually: Actions tab -> Run workflow.
+  workflow_dispatch: {}
 
 permissions:
   contents: read
