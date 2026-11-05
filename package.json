@@ -39,8 +39,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "node init && tsup",
-    "dev": "node init && tsup --watch",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "type-check": "tsc --noEmit",
     "lint": "eslint src",
     "format": "prettier --write src",
